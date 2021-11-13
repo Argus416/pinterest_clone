@@ -1,0 +1,29 @@
+{% set pinsCount = pins|length %}
+{% extends 'base.html.twig' %}
+{% block title %}Home | Pinterest Clone{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="mb-4 container_header d-flex justify-content-between align-items-center">
+            <h1>Home page | {{ pluralize(pinsCount, 'Pin') }}</h1>
+            <span>Pins Count <strong><i>{{ pinsCount }}</i></strong></span>
+        </div>
+
+        <div class="row justify-content-around">
+            {% for pin in pins %}
+                <div class="card col-lg-3 col-md-6">
+                    <img src="http://placekitten.com/800/800" class="card-img-top" alt="img">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pin.Title  }}</h5>
+                        <p class="card-text">{{ pin.Description }}</p>
+                        <a href="{{ path('show', {id : pin.id}) }}" class="btn btn-primary">Voir plus</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    <span>Aucun pin n'est poste</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
