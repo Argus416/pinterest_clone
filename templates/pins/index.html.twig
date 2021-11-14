@@ -9,9 +9,9 @@
             <span>Pins Count <strong><i>{{ pinsCount }}</i></strong></span>
         </div>
 
-        <div class="row justify-content-around">
+        <div class="row justify-content-around flex-wrap">
             {% for pin in pins %}
-                <div class="card col-lg-3 col-md-6">
+                <div class="card col-lg-4 col-md-6 mb-3">
                     <img src="http://placekitten.com/800/800" class="card-img-top" alt="img">
                     <div class="card-body">
                         <h5 class="card-title">{{ pin.Title  }}</h5>

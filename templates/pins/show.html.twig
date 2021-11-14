@@ -4,10 +4,43 @@
 
 {% block body %}
     <div class="container">
-        <h1 class="h1">Pin with id {{ pin.id }}</h1>
+        <div class="container_header d-flex justify-content-between mb-4 align-items-center">
+            <div>
+                <h1 class="h1">Pin with id {{ pin.id }}</h1>
+                    <div class="d-flex flex-column">
+                        <small><i>Created At {{ pin.createdAt | date('Y-m-d') }}</i></small>
+                        <small><i>Updated At {{ pin.updateAt | date('Y-m-d') }}</i></small>
+                    </div>
+            </div>
+            <div >
+                <a href="{{ path('edit',{id : pin.id}) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Pin {{ pin.id }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span>Are you sure of deleting this pin ? </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="row justify-content-around">
-        <div class="card col-lg-6 col-sm-10">
+        <div class="card col-lg-5 ">
             <img src="http://placekitten.com/800/800" class="card-img-top" alt="img">
             <div class="card-body">
                 <h5 class="card-title">{{ pin.Title }}</h5>

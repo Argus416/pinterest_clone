@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Entity;
-
-use App\Repository\PinRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
+use App\Repository\PinRepository;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=PinRepository::class)
  * @ORM\Table(name="pins")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Pin
 {
+    use Timestampable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -28,6 +31,7 @@ class Pin
      */
     private $description;
 
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -56,4 +60,5 @@ class Pin
 
         return $this;
     }
+
 }

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit | Pinterest Clone{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit Pin {{ pin.id }}</h1>
+        {{ form(formEdit) }}
+    </div>
+{% endblock %}

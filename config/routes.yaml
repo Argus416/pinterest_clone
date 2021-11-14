@@ -7,3 +7,6 @@ create:
 show:
     path: /pins/{id}
     controller: App\Controller\PinsController::show
+edit:
+    path: /pins/edit/{id}
+    controller: App\Controller\PinsController::edit
