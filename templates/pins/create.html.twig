@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create | Pinterest Clone{% endblock %}
+{% block title 'Creat Pin' %}
 
 {% block body %}
     <div class="container">
         <h1>Create New pin</h1>
-        {{ form(newPinForm) }}
+        {{ include ("pins/partials/_form.html.twig", {'submitButtonText' : 'Create new pin'}) }}
     </div>
 {% endblock %}

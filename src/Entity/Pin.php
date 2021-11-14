@@ -31,7 +31,12 @@ class Pin
      */
     private $description;
 
-   
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_deleted = '0';
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -61,4 +66,15 @@ class Pin
         return $this;
     }
 
+    public function getIsDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setIsDeleted(?bool $is_deleted): self
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
 }

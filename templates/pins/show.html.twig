@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home | Pinterest Clone{% endblock %}
+{% block title 'Show Pin #' ~ pin.id %}
 
 {% block body %}
     <div class="container">
@@ -8,8 +8,7 @@
             <div>
                 <h1 class="h1">Pin with id {{ pin.id }}</h1>
                     <div class="d-flex flex-column">
-                        <small><i>Created At {{ pin.createdAt | date('Y-m-d') }}</i></small>
-                        <small><i>Updated At {{ pin.updateAt | date('Y-m-d') }}</i></small>
+                        <small><i>Updated At {{ pin.updateAt | date('Y-m-d h:m:s') }}</i></small>
                     </div>
             </div>
             <div >
@@ -22,17 +21,20 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Pin {{ pin.id }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <span>Are you sure of deleting this pin ? </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Pin {{ pin.id }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>Are you sure of deleting this pin ? </span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                        {{ form_start(formDelete) }}
+                            <input type="submit" class="btn btn-danger" data-bs-dismiss="modal" value="Delete">
+                        {{ form_end(formDelete) }}
+
+                    </div>
                 </div>
             </div>
         </div>

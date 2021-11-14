@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
+use App\Form\PinType;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,7 @@ class PinsController extends AbstractController
 {
     public function index(PinRepository $repo): Response
     {
-        $pins = $repo->findBy([] , ['updateAt' => 'DESC']);
+        $pins = $repo->findBy(['is_deleted' => 0] , ['updateAt' => 'DESC']);
         // $pins = $repo->findAll();
         // dd($pins);
         return $this->render('pins/index.html.twig', [
@@ -27,19 +28,13 @@ class PinsController extends AbstractController
     public function create(Request $request): Response
     {
         $pin = new Pin;
-        $form = $this->createFormBuilder($pin)
-            ->add('Title')
-            ->add('Description')
-            ->add('Submit', SubmitType::class)
-            ->getForm()
-        ;
-
+        $form = $this->createForm(PinType::class, $pin);
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()){
-            // $data = $form->getData();
+            $data = $form->getData();
             // $pin->setTitle($data['Title']);
             // $pin->setDescription($data['Description']);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($pin);
             $em->flush();
@@ -49,16 +44,31 @@ class PinsController extends AbstractController
 
         return $this->render('pins/create.html.twig', [
             'controller_name' => 'PinsController',
-            'newPinForm' =>$form->createView()
+            'form' =>$form->createView()
         ]);
     }
 
-    public function show($id): Response
+    public function show($id, Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(Pin::class);
         $pin = $repo->find($id);
-        return $this->render('pins/show.html.twig',compact('pin'));
+
+        $formDelete = $this->createFormBuilder($pin)->getForm();
+
+        $formDelete->handleRequest($request);
+        
+        if($formDelete->isSubmitted() && $formDelete->isValid()){
+            $pin->setIsDeleted(true);
+            $em->persist($pin);
+            $em->flush();
+            return $this->redirectToRoute('index');
+        }
+        ($pin);
+        return $this->render('pins/show.html.twig',[
+            'pin' => $pin,
+            'formDelete' => $formDelete->createView()
+        ]);
     }
 
     public function edit($id, Request $request)
@@ -71,22 +81,16 @@ class PinsController extends AbstractController
         $pin->setTitle($pin->getTitle());
         $pin->setDescription($pin->getDescription());
         
-        $formEdit = $this->createFormBuilder($pin)
-            ->add('Title')
-            ->add('Description')
-            ->add('Submit', SubmitType::class)
-            ->getForm()
-        ;
+        $formEdit = $this->createForm(PinType::class, $pin);
 
         $formEdit->handleRequest($request);
         if($formEdit->isSubmitted() && $formEdit->isValid()){
-            $em->persist($pin);
             $em->flush();
             return $this->redirectToRoute('index');
         }
        
         return $this->render('pins/edit.html.twig',[
-            'formEdit' => $formEdit->createView(),
+            'form' => $formEdit->createView(),
             'pin' => $pin
         ]);
     }

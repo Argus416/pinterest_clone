@@ -1,12 +1,16 @@
 index:
     path: /
     controller: App\Controller\PinsController::index
+    methods: GET
 create:
     path: /create
     controller: App\Controller\PinsController::create
+    methods: GET|POST
 show:
-    path: /pins/{id}
+    path: /pins/{id<[0-9]+>}
     controller: App\Controller\PinsController::show
+    methods: GET|POST
 edit:
-    path: /pins/edit/{id}
+    path: /pins/edit/{id<[0-9]+>}
     controller: App\Controller\PinsController::edit
+    methods: GET|POST
